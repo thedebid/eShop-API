@@ -1,17 +1,27 @@
-const express = require('express')
+const productService = require('./product.service')
 
-const router = express.Router()
-
-// routes
-router.get('/', getAll)
-router.post('/login', login)
-
-module.exports = router
-
-function getAll(req, res, next) {
-    res.send('hehe')
+function createProduct(req, res, next) {
+    productService
+        .createProduct()
+        .then((result) => {
+            console.log(result)
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            console.log(err)
+            next(err)
+        })
 }
 
-function login(req, res, next) {
-    res.send('hi from student login')
+async function getProductList(req, res, next) {
+    const productList = await productService.getProduct()
+    if (!productList) {
+        res.status(500).json({ success: false })
+    }
+    res.send(productList)
+}
+
+module.exports = {
+    createProduct,
+    getProductList,
 }
