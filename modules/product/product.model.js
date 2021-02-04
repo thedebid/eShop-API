@@ -6,11 +6,11 @@ const ProductSchema = new Schema(
         id: String,
         name: {
             type: String,
-            required: type,
+            required: true,
         },
         description: {
             type: String,
-            required: type,
+            required: true,
         },
         richDescription: {
             type: String,
@@ -30,7 +30,7 @@ const ProductSchema = new Schema(
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',
-            required: type,
+            required: true,
         },
         countInStock: {
             type: Number,

@@ -6,14 +6,27 @@ const APIRoute = require('./routes/api.route')
 require('./configs/mongoose')
 
 //Middlewares
+//For log
 app.use(morgan('tiny'))
 
-//API Routes
-app.use(`${api}/`, APIRoute)
+//For reading json and urlencoded data
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
+//API Routes
 const api = process.env.API_URL
+app.use(`${api}/`, APIRoute)
 
 //Server
 app.listen(process.env.PORT, () => {
     console.log('Server is running at port ' + process.env.PORT)
+})
+
+//For error handling
+app.use(function (err, req, res, next) {
+    console.log('Error handling middleware', err)
+    res.json({
+        message: err.message || err,
+        status: err.status || 400,
+    })
 })
