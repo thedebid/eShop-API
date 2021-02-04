@@ -9,8 +9,15 @@ function saveCategory(data) {
     newCategory.icon = data.icon
     return newCategory.save()
 }
-
+function categoryById(id) {
+    return categoryModel.findById(id)
+}
+function deleteCategory(id) {
+    return categoryModel.findByIdAndRemove(id)
+}
 module.exports = {
     getCategory,
     saveCategory,
+    categoryById,
+    deleteCategory,
 }

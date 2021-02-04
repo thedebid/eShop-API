@@ -27,7 +27,42 @@ function createCategory(req, res, next) {
             next(err)
         })
 }
+function getCategoryById(req, res, next) {
+    categoryService
+        .categoryById(req.params.id)
+        .then((result) => {
+            if (result === null) {
+                return next({
+                    message: 'category not found',
+                })
+            }
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            next(err)
+        })
+}
+function deleteCategoryById(req, res, next) {
+    categoryService
+        .deleteCategory(req.params.id)
+        .then((result) => {
+            if (result === null) {
+                return next({
+                    message: 'category not found',
+                })
+            }
+            res.status(200).json({
+                success: true,
+                message: 'category is deleted!',
+            })
+        })
+        .catch((err) => {
+            next(err)
+        })
+}
 module.exports = {
     getCategoryList,
     createCategory,
+    getCategoryById,
+    deleteCategoryById,
 }
