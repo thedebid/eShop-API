@@ -6,7 +6,7 @@ function getCategoryList(req, res, next) {
         .getCategory()
         .then((result) => {
             if (!result.length) {
-                next({
+                return next({
                     message: 'category not found',
                     status: '500',
                 })
