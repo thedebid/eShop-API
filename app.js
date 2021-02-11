@@ -25,7 +25,7 @@ app.listen(process.env.PORT, () => {
 //For error handling
 app.use(function (err, req, res, next) {
     console.log('Error handling middleware', err)
-    res.json({
+    res.status(err.status || 400).json({
         message: err.message || err,
         status: err.status || 400,
     })

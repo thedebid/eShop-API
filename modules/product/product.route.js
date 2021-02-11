@@ -7,5 +7,9 @@ router
     .get(productController.getProductList)
     .post(productController.createProduct)
 
-router.route('/:id').get(productController.getProductById)
+router
+    .route('/:id')
+    .get(productController.getProductById)
+    .delete(productController.deleteProduct)
+
 module.exports = router

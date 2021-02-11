@@ -31,12 +31,23 @@ async function getProductList(req, res, next) {
 }
 function getProductById(req, res, next) {
     productService
-        .getById(req.params.id)
+        .findById(req.params.id)
         .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
+}
+function deleteProduct(req, res, next) {
+    productService
+        .remove(req.params.id)
+        .then(() =>
+            res.status(200).json({
+                message: 'Product deleted successfully',
+            })
+        )
         .catch((err) => next(err))
 }
 module.exports = {
     createProduct,
     getProductList,
     getProductById,
+    deleteProduct,
 }

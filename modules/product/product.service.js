@@ -1,6 +1,12 @@
 const productModel = require('./product.model')
+const categoryModel = require('./../category/category.model')
 const helper = require('./../../helpers/isValid')
-function save(data) {
+
+async function save(data) {
+    //Check category exist or not
+    const category = await categoryModel.findById(data.category)
+    if (!category) throw { status: 400, message: 'Invalid Category' }
+
     var newProduct = new productModel({})
     // map data in newProduct
     mapProductReq(newProduct, data)
@@ -10,18 +16,22 @@ function save(data) {
 function getAll() {
     return productModel.find()
 }
-function getById(id) {
+async function findById(id) {
     if (!helper.isValidId(id)) throw 'Product with' + ` ${id} ` + 'not found'
-    const product = productModel.findById(id)
+    const product = await productModel.findById(id)
     if (!product) throw 'Product with' + ` ${id} ` + 'not found'
     return product
 }
-function remove(id) {}
+async function remove(id) {
+    const product = await findById(id)
+    await product.remove(id)
+}
 
 module.exports = {
     save,
     getAll,
-    getById,
+    findById,
+    remove,
 }
 
 //Helper function
