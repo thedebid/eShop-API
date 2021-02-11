@@ -26,7 +26,10 @@ const ProductSchema = new Schema(
             },
         ],
         brand: String,
-        price: Number,
+        price: {
+            type: Number,
+            required: true,
+        },
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category',
@@ -40,7 +43,6 @@ const ProductSchema = new Schema(
         },
         rating: Number,
         isFeatured: Boolean,
-        dateCreated: Date,
         tags: [String],
         // reviews: [ReviewSchema],
     },

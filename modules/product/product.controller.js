@@ -2,7 +2,7 @@ const productService = require('./product.service')
 
 function createProduct(req, res, next) {
     productService
-        .createProduct()
+        .save(req.body)
         .then((result) => {
             console.log(result)
             res.status(200).json(result)
@@ -14,14 +14,29 @@ function createProduct(req, res, next) {
 }
 
 async function getProductList(req, res, next) {
-    const productList = await productService.getProduct()
-    if (!productList) {
-        res.status(500).json({ success: false })
-    }
-    res.send(productList)
+    productService
+        .getAll()
+        .then((result) => {
+            if (!result.length) {
+                return next({
+                    message: 'Product not found',
+                    status: '500',
+                })
+            }
+            res.status(200).json(result)
+        })
+        .catch((err) => {
+            next(err)
+        })
 }
-
+function getProductById(req, res, next) {
+    productService
+        .getById(req.params.id)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
+}
 module.exports = {
     createProduct,
     getProductList,
+    getProductById,
 }
