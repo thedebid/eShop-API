@@ -1,23 +1,42 @@
 const categoryModel = require('./category.model')
+const helper = require('../../helpers/isValid')
 
-function getCategory() {
+function getAll() {
     return categoryModel.find()
 }
-function saveCategory(data) {
+function save(data) {
     var newCategory = new categoryModel({})
     newCategory.name = data.name
     newCategory.icon = data.icon
     return newCategory.save()
 }
-function categoryById(id) {
-    return categoryModel.findById(id)
+
+async function findById(id) {
+    if (!helper.isValidId(id)) throw 'Category with' + ` ${id} ` + 'not found'
+    const category = await categoryModel.findById(id)
+    if (!category) throw 'Category with' + ` ${id} ` + 'not found'
+    return category
 }
-function deleteCategory(id) {
-    return categoryModel.findByIdAndRemove(id)
+
+async function remove(id) {
+    const category = await findById(id)
+    await category.remove(id)
 }
+
+async function update(id, data) {
+    const category = await findById(id)
+
+    // copy params to account and save
+    Object.assign(category, data)
+    await category.save()
+
+    return category
+}
+
 module.exports = {
-    getCategory,
-    saveCategory,
-    categoryById,
-    deleteCategory,
+    getAll,
+    save,
+    findById,
+    remove,
+    update,
 }

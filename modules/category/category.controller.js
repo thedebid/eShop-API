@@ -3,7 +3,7 @@ const categoryService = require('./category.service')
 
 function getCategoryList(req, res, next) {
     categoryService
-        .getCategory()
+        .getAll()
         .then((result) => {
             if (!result.length) {
                 return next({
@@ -19,7 +19,7 @@ function getCategoryList(req, res, next) {
 }
 function createCategory(req, res, next) {
     categoryService
-        .saveCategory(req.body)
+        .save(req.body)
         .then((result) => {
             res.status(200).json(result)
         })
@@ -29,40 +29,30 @@ function createCategory(req, res, next) {
 }
 function getCategoryById(req, res, next) {
     categoryService
-        .categoryById(req.params.id)
-        .then((result) => {
-            if (result === null) {
-                return next({
-                    message: 'category not found',
-                })
-            }
-            res.status(200).json(result)
-        })
-        .catch((err) => {
-            next(err)
-        })
+        .findById(req.params.id)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
 }
-function deleteCategoryById(req, res, next) {
+function deleteCategory(req, res, next) {
     categoryService
-        .deleteCategory(req.params.id)
-        .then((result) => {
-            if (result === null) {
-                return next({
-                    message: 'category not found',
-                })
-            }
+        .remove(req.params.id)
+        .then(() =>
             res.status(200).json({
-                success: true,
-                message: 'category is deleted!',
+                message: 'Category deleted successfully',
             })
-        })
-        .catch((err) => {
-            next(err)
-        })
+        )
+        .catch((err) => next(err))
+}
+function updateCategory(req, res, next) {
+    categoryService
+        .update(req.params.id, req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
 }
 module.exports = {
     getCategoryList,
     createCategory,
     getCategoryById,
-    deleteCategoryById,
+    deleteCategory,
+    updateCategory,
 }
