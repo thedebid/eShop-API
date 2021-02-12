@@ -7,12 +7,14 @@ router
     .get(productController.getProductList)
     .post(productController.createProduct)
 
+router.route('/get/count').get(productController.getProductCount)
+
+router.route('/get/featured/:count').get(productController.getFeaturedProducts)
+
 router
     .route('/:id')
     .get(productController.getProductById)
     .delete(productController.deleteProduct)
     .put(productController.updateProduct)
-
-router.route('/get/count').get(productController.getProductCount)
 
 module.exports = router

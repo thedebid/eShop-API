@@ -36,7 +36,7 @@ async function update(id, data) {
 
     //Copy params to product and save
     Object.assign(product, data)
-    await product.save
+    await product.save()
     return product
 }
 async function count() {
@@ -44,6 +44,12 @@ async function count() {
     if (!productCount) throw { status: 500, success: false }
 
     return productCount
+}
+async function featured(count) {
+    const products = await productModel.find({ isFeatured: true }).limit(count)
+    if (!products) throw { status: 500, message: 'Featured products not found' }
+
+    return products
 }
 
 module.exports = {
@@ -53,6 +59,7 @@ module.exports = {
     remove,
     update,
     count,
+    featured,
 }
 
 //Helper function

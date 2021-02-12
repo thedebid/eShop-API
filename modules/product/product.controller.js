@@ -29,12 +29,14 @@ async function getProductList(req, res, next) {
             next(err)
         })
 }
+
 function getProductById(req, res, next) {
     productService
         .findById(req.params.id)
         .then((result) => res.status(200).json(result))
         .catch((err) => next(err))
 }
+
 function deleteProduct(req, res, next) {
     productService
         .remove(req.params.id)
@@ -45,6 +47,7 @@ function deleteProduct(req, res, next) {
         )
         .catch((err) => next(err))
 }
+
 function updateProduct(req, res, next) {
     productService
         .update(req.params.id, req.body)
@@ -55,12 +58,22 @@ function updateProduct(req, res, next) {
         )
         .catch((err) => next(err))
 }
+
 function getProductCount(req, res, next) {
     productService
         .count()
         .then((result) => res.status(200).json(result))
         .catch((err) => next(err))
 }
+
+function getFeaturedProducts(req, res, next) {
+    const count = req.params.count ? req.params.count : 0
+    productService
+        .featured(+count)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
+}
+
 module.exports = {
     createProduct,
     getProductList,
@@ -68,4 +81,5 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getProductCount,
+    getFeaturedProducts,
 }
