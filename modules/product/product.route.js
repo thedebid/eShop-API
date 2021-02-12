@@ -13,4 +13,6 @@ router
     .delete(productController.deleteProduct)
     .put(productController.updateProduct)
 
+router.route('/get/count').get(productController.getProductCount)
+
 module.exports = router

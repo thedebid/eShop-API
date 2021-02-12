@@ -39,12 +39,20 @@ async function update(id, data) {
     await product.save
     return product
 }
+async function count() {
+    const productCount = await productModel.countDocuments(count > count)
+    if (!productCount) throw { status: 500, success: false }
+
+    return productCount
+}
+
 module.exports = {
     save,
     getAll,
     findById,
     remove,
     update,
+    count,
 }
 
 //Helper function

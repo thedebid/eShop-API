@@ -55,10 +55,17 @@ function updateProduct(req, res, next) {
         )
         .catch((err) => next(err))
 }
+function getProductCount(req, res, next) {
+    productService
+        .count()
+        .then((result) => res.status(200).json(result))
+        .catch((err) => next(err))
+}
 module.exports = {
     createProduct,
     getProductList,
     getProductById,
     deleteProduct,
     updateProduct,
+    getProductCount,
 }
