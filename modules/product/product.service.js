@@ -17,7 +17,7 @@ function getAll() {
     return productModel.find()
 }
 async function findById(id) {
-    if (!helper.isValidId(id)) throw 'Product with' + ` ${id} ` + 'not found'
+    if (!helper.isValidId(id)) throw 'Invalid product id: ' + `${id}`
     const product = await productModel.findById(id).populate('category')
 
     if (!product) throw 'Product with' + ` ${id} ` + 'not found'
@@ -27,12 +27,24 @@ async function remove(id) {
     const product = await findById(id)
     await product.remove(id)
 }
+async function update(id, data) {
+    const product = await findById(id)
 
+    //Check category exist or not
+    const category = await categoryModel.findById(data.category)
+    if (!category) throw { status: 400, message: 'Invalid Category' }
+
+    //Copy params to product and save
+    Object.assign(product, data)
+    await product.save
+    return product
+}
 module.exports = {
     save,
     getAll,
     findById,
     remove,
+    update,
 }
 
 //Helper function

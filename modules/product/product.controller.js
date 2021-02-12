@@ -45,9 +45,20 @@ function deleteProduct(req, res, next) {
         )
         .catch((err) => next(err))
 }
+function updateProduct(req, res, next) {
+    productService
+        .update(req.params.id, req.body)
+        .then((result) =>
+            res
+                .status(200)
+                .json({ result, message: 'Product updated successfully' })
+        )
+        .catch((err) => next(err))
+}
 module.exports = {
     createProduct,
     getProductList,
     getProductById,
     deleteProduct,
+    updateProduct,
 }
