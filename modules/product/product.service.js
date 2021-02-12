@@ -18,7 +18,8 @@ function getAll() {
 }
 async function findById(id) {
     if (!helper.isValidId(id)) throw 'Product with' + ` ${id} ` + 'not found'
-    const product = await productModel.findById(id)
+    const product = await productModel.findById(id).populate('category')
+
     if (!product) throw 'Product with' + ` ${id} ` + 'not found'
     return product
 }

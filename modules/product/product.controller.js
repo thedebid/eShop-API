@@ -4,11 +4,11 @@ function createProduct(req, res, next) {
     productService
         .save(req.body)
         .then((result) => {
-            console.log(result)
+            //console.log(result)
             res.status(200).json(result)
         })
         .catch((err) => {
-            console.log(err)
+            // console.log(err)
             next(err)
         })
 }

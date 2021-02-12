@@ -32,7 +32,7 @@ const ProductSchema = new Schema(
         },
         category: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Category',
+            ref: 'category',
             required: true,
         },
         countInStock: {
@@ -51,5 +51,5 @@ const ProductSchema = new Schema(
     }
 )
 
-const ProductModel = mongoose.model('product', ProductSchema)
-module.exports = ProductModel
+const productModel = mongoose.model('product', ProductSchema)
+module.exports = productModel
