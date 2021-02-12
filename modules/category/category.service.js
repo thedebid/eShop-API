@@ -12,7 +12,7 @@ function save(data) {
 }
 
 async function findById(id) {
-    if (!helper.isValidId(id)) throw 'Category with' + ` ${id} ` + 'not found'
+    if (!helper.isValidId(id)) throw 'Invalid category id:' + ` ${id}`
     const category = await categoryModel.findById(id)
     if (!category) throw 'Category with' + ` ${id} ` + 'not found'
     return category
@@ -26,7 +26,7 @@ async function remove(id) {
 async function update(id, data) {
     const category = await findById(id)
 
-    // copy params to account and save
+    // copy params to category and save
     Object.assign(category, data)
     await category.save()
 
